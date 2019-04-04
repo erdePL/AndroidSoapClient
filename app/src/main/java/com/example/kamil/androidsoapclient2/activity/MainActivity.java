@@ -1,52 +1,61 @@
-package com.example.kamil.androidsoapclient2;
+package com.example.kamil.androidsoapclient2.activity;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.TextView;
 
-import com.example.kamil.androidsoapclient2.xmlSoapRequests.AddMessageXmlSoapRequest;
-
-import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.core.Persister;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
+import com.example.kamil.androidsoapclient2.R;
+import com.example.kamil.androidsoapclient2.outputFormatting.XmlPrettyFormatter;
+import com.example.kamil.androidsoapclient2.requestCreating.AddMessageRequestBuilder;
+import com.example.kamil.androidsoapclient2.requestCreating.GetAllMessagesRequestBuilder;
+import com.example.kamil.androidsoapclient2.requestCreating.GetMessageRequestBuilder;
+import com.example.kamil.androidsoapclient2.requestCreating.RemoveAllMessagesRequestBuilder;
+import com.example.kamil.androidsoapclient2.requestCreating.RemoveMessageRequestBuilder;
+import com.example.kamil.androidsoapclient2.requestCreating.UpdateMessageRequestBuilder;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
+
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        SoapCaller soapCaller = new SoapCaller();
-//        soapCaller.execute();
-        XmlParser xmlParser = new XmlParser();
-        xmlParser.doSomeXmlParsing();
+        textView = (TextView) findViewById(R.id.textView);
+        //hl call soap service with given request
+                SoapCaller soapCaller = new SoapCaller();
+                 soapCaller.execute();
+
+        //hl shows builded request in text view
+//        GetMessageRequestBuilder request = new GetMessageRequestBuilder(1);
+//                String soapEnvelope = request.getRequest();
+//                textView.setText(soapEnvelope +"\n\n"+"<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://webService/\"><SOAP-ENV:Body><ns1:getMessage><arg0>1</arg0></ns1:getMessage></SOAP-ENV:Body></SOAP-ENV:Envelope>");
+//                textView.setText(Boolean.toString(soapEnvelope.equals("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://webService/\"><SOAP-ENV:Body><ns1:getMessage><arg0>1</arg0></ns1:getMessage></SOAP-ENV:Body></SOAP-ENV:Envelope>")));
     }
 
     private class SoapCaller extends AsyncTask {
 
-        //hl a21aa656.ngrok.io
+        String result;
+
         @Override
         protected Object doInBackground(Object[] params) {
 
             try {
-                URL url = new URL("http://a21aa656.ngrok.io/SoapMessageService-1.0-SNAPSHOT/MessageService?wsdl");
+                URL url = new URL("http://fc6dfd6d.ngrok.io/SoapMessageService-1.0-SNAPSHOT/MessageService?wsdl");
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("GET");
 
-                String soapEnvelope = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://webService/\"><SOAP-ENV:Body><ns1:removeAllMessages/></SOAP-ENV:Body></SOAP-ENV:Envelope>";
+//                String soapEnvelope = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://webService/\"><SOAP-ENV:Body><ns1:getMessage><arg0>1</arg0></ns1:getMessage></SOAP-ENV:Body></SOAP-ENV:Envelope>";
+                RemoveAllMessagesRequestBuilder request = new RemoveAllMessagesRequestBuilder();
+                String soapEnvelope = request.getRequest();
 
                 con.setDoOutput(true);
                 DataOutputStream out = new DataOutputStream(con.getOutputStream());
@@ -61,31 +70,23 @@ public class MainActivity extends AppCompatActivity {
                     response.append(inputLine);
                 }
                 in.close();
-                System.out.println(response.toString());
-
+                result = response.toString();
+                return response;
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
             }
-
             return null;
         }
-    }
 
-    private class XmlParser{
-        public void doSomeXmlParsing(){
-            Serializer serializer = new Persister();
-            AddMessageXmlSoapRequest addMessageXmlSoapRequest = new AddMessageXmlSoapRequest("Kot", new Date(), 1, "Message from Android !");
-            StringWriter stringWriter = new StringWriter();
-            try {
-                serializer.write(addMessageXmlSoapRequest, stringWriter);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            String result = stringWriter.toString();
-            Log.e("",result);
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            textView.setText(XmlPrettyFormatter.prettyFormat(result, 2));
+            //textView.setText(result);
         }
     }
+
 }
 /*hl all of the working methods
  private static void removeMessage() {
