@@ -1,4 +1,4 @@
-package com.example.kamil.androidsoapclient2.outputFormatting;
+package com.example.kamil.androidsoapclient2.old.outputFormatting;
 
 import java.io.StringReader;
 import java.io.StringWriter;

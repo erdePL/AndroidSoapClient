@@ -1,4 +1,4 @@
-package com.example.kamil.androidsoapclient2.requestCreating;
+package com.example.kamil.androidsoapclient2.old.requestCreating;
 
 public abstract class MessageServiceRequestBuilder {
     protected final String envelopeURL = "http://schemas.xmlsoap.org/soap/envelope/";

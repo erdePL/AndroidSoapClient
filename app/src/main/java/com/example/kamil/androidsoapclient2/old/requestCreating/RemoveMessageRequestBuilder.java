@@ -1,4 +1,4 @@
-package com.example.kamil.androidsoapclient2.requestCreating;
+package com.example.kamil.androidsoapclient2.old.requestCreating;
 
 public class RemoveMessageRequestBuilder extends MessageServiceRequestBuilder {
 

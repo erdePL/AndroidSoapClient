@@ -1,6 +1,6 @@
-package com.example.kamil.androidsoapclient2.requestCreating;
+package com.example.kamil.androidsoapclient2.old.requestCreating;
 
-public class RemoveAllMessagesRequestBuilder extends MessageServiceRequestBuilder{
+public class GetAllMessagesRequestBuilder extends MessageServiceRequestBuilder {
     @Override
     protected String generateRequest() {
         StringBuilder request = new StringBuilder();
@@ -8,7 +8,7 @@ public class RemoveAllMessagesRequestBuilder extends MessageServiceRequestBuilde
                 .append(envelopeURL + "\" ")
                 .append("xmlns:ns1=\"")
                 .append(webServiceNamespace + "\">")
-                .append("<SOAP-ENV:Body><ns1:removeAllMessages/></SOAP-ENV:Body></SOAP-ENV:Envelope>");
+                .append("<SOAP-ENV:Body><ns1:getAllMessages/></SOAP-ENV:Body></SOAP-ENV:Envelope>");
         return request.toString();
     }
 }

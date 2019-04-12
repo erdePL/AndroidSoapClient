@@ -5,9 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 import com.example.kamil.androidsoapclient2.R;
-import com.example.kamil.androidsoapclient2.outputFormatting.XmlPrettyFormatter;
-import com.example.kamil.androidsoapclient2.requestCreating.AddMessageRequestBuilder;
-import com.example.kamil.androidsoapclient2.requestCreating.RemoveAllMessagesRequestBuilder;
+import com.example.kamil.androidsoapclient2.old.outputFormatting.XmlPrettyFormatter;
+import com.example.kamil.androidsoapclient2.old.requestCreating.AddMessageRequestBuilder;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] params) {
             HttpURLConnection con =null;
             try {
-                URL url = new URL("http://daf53ee7.ngrok.io/SoapMessageService-1.0-SNAPSHOT/MessageService?wsdl");
+                URL url = new URL("http://d9b9c5c4.ngrok.io/SoapMessageService-1.0-SNAPSHOT/MessageService?wsdl");
                 con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("GET");
                 con.setDoOutput(true);
@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             AddMessageRequestBuilder request = new AddMessageRequestBuilder("Message from Android App 4", "El Kocurro");
+//            RemoveAllMessagesRequestBuilder request = new RemoveAllMessagesRequestBuilder();
             String soapEnvelope = request.getRequest();
             try(    DataOutputStream out = new DataOutputStream(con.getOutputStream())  ){
                 out.writeBytes(soapEnvelope);
