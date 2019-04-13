@@ -1,9 +1,9 @@
-package com.example.kamil.androidsoapclient2.serviceOperating.requestBuilder.builder;
+package com.example.kamil.androidsoapclient2.requestBuilder.builder;
 
 import com.example.kamil.androidsoapclient2.model.Message;
-import com.example.kamil.androidsoapclient2.serviceOperating.requestBuilder.markups.Body;
-import com.example.kamil.androidsoapclient2.serviceOperating.requestBuilder.markups.ServiceMethod;
-import com.example.kamil.androidsoapclient2.serviceOperating.requestBuilder.markups.RequestBlueprint;
+import com.example.kamil.androidsoapclient2.requestBuilder.markups.Body;
+import com.example.kamil.androidsoapclient2.requestBuilder.markups.RequestBlueprint;
+import com.example.kamil.androidsoapclient2.requestBuilder.markups.ServiceMethod;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
@@ -14,7 +14,6 @@ public class SoapRequestCreator {
         this.xstream = new XStream(new StaxDriver());
         initializeXstreamConfig();
     }
-
     private void initializeXstreamConfig() {
         request = new RequestBlueprint();
         xstream.alias("ENV:Envelope", RequestBlueprint.class);
@@ -26,7 +25,6 @@ public class SoapRequestCreator {
         xstream.aliasField("arg0", ServiceMethod.class, "id");
         xstream.aliasField("arg0", ServiceMethod.class, "message");
     }
-
     public String returnRemoveAllMessagesRequest(){
         request = new RequestBlueprint();
         xstream.aliasField("ns1:removeAllMessages", Body.class, "serviceMethod");

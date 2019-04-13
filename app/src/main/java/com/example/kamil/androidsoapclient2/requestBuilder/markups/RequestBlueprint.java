@@ -1,4 +1,4 @@
-package com.example.kamil.androidsoapclient2.serviceOperating.requestBuilder.markups;
+package com.example.kamil.androidsoapclient2.requestBuilder.markups;
 
 public class RequestBlueprint {
     private String xmlnsEnvelope;
@@ -9,7 +9,6 @@ public class RequestBlueprint {
         this.xmlnsEnvelope = "http://schemas.xmlsoap.org/soap/envelope/";
         this.xmlnsService = "http://webService/";
     }
-
     public Body getBody() {
         return body;
     }

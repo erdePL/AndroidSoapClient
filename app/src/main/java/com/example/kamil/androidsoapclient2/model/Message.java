@@ -8,9 +8,7 @@ public class Message {
     private String messageContent;
     private String creationDate;
     private String author;
-    public Message() {
-
-    }
+    public Message(){}
     public Message(long id, String messageContent, String author) {
         this.id = id;
         this.messageContent = messageContent;

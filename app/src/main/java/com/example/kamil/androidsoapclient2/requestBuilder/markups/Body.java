@@ -1,11 +1,11 @@
-package com.example.kamil.androidsoapclient2.serviceOperating.requestBuilder.markups;
+package com.example.kamil.androidsoapclient2.requestBuilder.markups;
 
 public class Body{
     private ServiceMethod serviceMethod;
-    public Body() {
+    public Body(){
         this.serviceMethod = new ServiceMethod();
     }
-    public ServiceMethod getServiceMethod() {
+    public ServiceMethod getServiceMethod(){
         return serviceMethod;
     }
 }

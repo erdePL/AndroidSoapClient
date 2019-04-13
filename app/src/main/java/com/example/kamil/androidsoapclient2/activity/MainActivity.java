@@ -5,9 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 import com.example.kamil.androidsoapclient2.R;
-import com.example.kamil.androidsoapclient2.serviceOperating.operator.MessageServiceOperator;
 import com.example.kamil.androidsoapclient2.xmlFormatting.XmlPrettyFormatter;
-import com.example.kamil.androidsoapclient2.serviceOperating.requestBuilder.builder.SoapRequestCreator;
+import com.example.kamil.androidsoapclient2.requestBuilder.builder.SoapRequestCreator;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -22,25 +21,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textView = (TextView) findViewById(R.id.textView);
-        //hl execute doInBackground() of SoapCaller
         SoapCaller soapCaller = new SoapCaller();
-        soapCaller.execute();
-        //hl sets textview content
-//        textView.setText("some text");
+        SoapRequestCreator soapRequestCreator = new SoapRequestCreator();
+        String soapEnvelope = soapRequestCreator.returnGetMessageRequest(1);
+        soapCaller.execute(soapEnvelope);
     }
 
-    private class SoapCaller extends AsyncTask<Object, Object, String> {
+    private class SoapCaller extends AsyncTask<String, Object, String> {
         private HttpURLConnection connection;
         String result;
         @Override
-        protected String doInBackground(Object[] params) {
+        protected String doInBackground(String[] params) {
             initializeConnetion();
-            SoapRequestCreator soapRequestCreator = new SoapRequestCreator();
-            String soapEnvelope = soapRequestCreator.returnGetAllMessagesRequest();
-            sendRequest(soapEnvelope);
+            sendRequest(params[0]);
             result = getResponse();
             return result;
-
         }
         @Override
         protected void onPostExecute(String o) {

@@ -1,4 +1,4 @@
-package com.example.kamil.androidsoapclient2.serviceOperating.requestBuilder.markups;
+package com.example.kamil.androidsoapclient2.requestBuilder.markups;
 
 import com.example.kamil.androidsoapclient2.model.Message;
 
@@ -9,7 +9,6 @@ public class ServiceMethod {
         this.message = null;
         this.message = null;
     }
-
     public void setMessage(Message message) {
         this.id = null;
         this.message = message;
