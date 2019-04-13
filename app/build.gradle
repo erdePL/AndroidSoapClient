@@ -27,16 +27,11 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
 
-    /*implementation ('org.simpleframework:simple-xml:2.7.1')
-    {
-        exclude module: 'stax-api'
-        exclude module: 'stax'
-        exclude module: 'xpp3'
-    }
-    */
+    implementation group: 'javax.xml.stream', name: 'stax-api', version: '1.0-2'
     implementation (group: 'com.thoughtworks.xstream', name: 'xstream', version: '1.4.11.1'){
         exclude module: 'xmlpull'
     }
+    implementation 'com.fasterxml:aalto-xml:1.0.0'
 
 }
 

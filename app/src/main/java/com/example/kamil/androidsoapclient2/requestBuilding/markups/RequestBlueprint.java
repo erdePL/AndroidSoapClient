@@ -13,5 +13,4 @@ public class RequestBlueprint {
     public Body getBody() {
         return body;
     }
-
 }

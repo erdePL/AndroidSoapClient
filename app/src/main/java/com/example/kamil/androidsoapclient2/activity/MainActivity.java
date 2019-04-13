@@ -5,9 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 import com.example.kamil.androidsoapclient2.R;
-import com.example.kamil.androidsoapclient2.old.outputFormatting.XmlPrettyFormatter;
-import com.example.kamil.androidsoapclient2.old.requestCreating.AddMessageRequestBuilder;
-
+import com.example.kamil.androidsoapclient2.outputFormatting.XmlPrettyFormatter;
+import com.example.kamil.androidsoapclient2.requestBuilding.builder.SoapRequestCreator;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -16,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
+
     TextView textView;
 
     @Override
@@ -23,9 +23,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textView = (TextView) findViewById(R.id.textView);
-        //hl call soap service with given request
+
+        //hl execute doInBackground() of SoapCaller
         SoapCaller soapCaller = new SoapCaller();
         soapCaller.execute();
+
+        //hl sets textview content
+//        textView.setText("some text");
     }
 
     private class SoapCaller extends AsyncTask {
@@ -33,37 +37,40 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Object doInBackground(Object[] params) {
-            HttpURLConnection con =null;
             try {
                 URL url = new URL("http://d9b9c5c4.ngrok.io/SoapMessageService-1.0-SNAPSHOT/MessageService?wsdl");
-                con = (HttpURLConnection) url.openConnection();
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("GET");
+
+                //hl working soap requests
+                SoapRequestCreator soapRequestCreator = new SoapRequestCreator();
+//                String soapEnvelope = soapRequestCreator.returnGetAllMessagesRequest();
+//                String soapEnvelope = soapRequestCreator.returnGetMessageRequest(12);
+                String soapEnvelope = soapRequestCreator.returnAddMessageRequest("Miau from android", "El Kocurro");
+//                String soapEnvelope = soapRequestCreator.returnUpdateMessageRequest(15,"Miau from android EDITED !", "El Kocurro");
+//                String soapEnvelope = soapRequestCreator.returnRemoveMessageRequest(12);
+//                String soapEnvelope = soapRequestCreator.returnRemoveAllMessagesRequest();
+
                 con.setDoOutput(true);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            AddMessageRequestBuilder request = new AddMessageRequestBuilder("Message from Android App 4", "El Kocurro");
-//            RemoveAllMessagesRequestBuilder request = new RemoveAllMessagesRequestBuilder();
-            String soapEnvelope = request.getRequest();
-            try(    DataOutputStream out = new DataOutputStream(con.getOutputStream())  ){
+                DataOutputStream out = new DataOutputStream(con.getOutputStream());
                 out.writeBytes(soapEnvelope);
                 out.flush();
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-            String stringResponse = null;
-            try(    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream())) ){
+                out.close();
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 String inputLine;
-                StringBuffer rawResponse = new StringBuffer();
+                StringBuffer response = new StringBuffer();
                 while ((inputLine = in.readLine()) != null) {
-                    rawResponse.append(inputLine);
-                    result = rawResponse.toString();
-                    stringResponse = rawResponse.toString();
+                    response.append(inputLine);
                 }
-            }catch (IOException e){
+                in.close();
+                result = response.toString();
+                return response;
+            } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
             }
-            return stringResponse;
+            return null;
         }
 
         @Override

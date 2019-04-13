@@ -9,10 +9,7 @@ public class Message {
     private String creationDate;
     private String author;
     public Message() {
-        this.id = 1;
-        this.messageContent = "Miauu!";
-        this.creationDate = LocalDateTime.now().toString();
-        this.author = "Kocurro";
+
     }
     public Message(long id, String messageContent, String author) {
         this.id = id;

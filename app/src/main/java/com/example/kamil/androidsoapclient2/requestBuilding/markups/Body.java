@@ -8,5 +8,4 @@ public class Body{
     public ServiceMethod getServiceMethod() {
         return serviceMethod;
     }
-
 }

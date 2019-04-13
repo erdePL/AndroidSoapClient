@@ -29,47 +29,42 @@ public class SoapRequestCreator {
 
     public String returnRemoveAllMessagesRequest(){
         request = new RequestBlueprint();
-        xstream.aliasField("ns1:removeAllMessages", Body.class, "method");
+        xstream.aliasField("ns1:removeAllMessages", Body.class, "serviceMethod");
         String stringSoapRequest = xstream.toXML(request);
         return stringSoapRequest;
     }
-
     public String returnGetAllMessagesRequest(){
         request = new RequestBlueprint();
-        xstream.aliasField("ns1:getAllMessages", Body.class, "method");
+        xstream.aliasField("ns1:getAllMessages", Body.class, "serviceMethod");
         String stringSoapRequest = xstream.toXML(request);
         return stringSoapRequest;
-}
-
+    }
     public String returnGetMessageRequest(int id){
         request = new RequestBlueprint();
-        xstream.aliasField("ns1:getMessage", Body.class, "method");
+        xstream.aliasField("ns1:getMessage", Body.class, "serviceMethod");
         this.request.getBody().getServiceMethod().setId(id);
         String stringSoapRequest = xstream.toXML(request);
         return stringSoapRequest;
     }
-
     public String returnRemoveMessageRequest(int id){
         request = new RequestBlueprint();
-        xstream.aliasField("ns1:removeMessage", Body.class, "method");
+        xstream.aliasField("ns1:removeMessage", Body.class, "serviceMethod");
         this.request.getBody().getServiceMethod().setId(id);
         String stringSoapRequest = xstream.toXML(request);
         return stringSoapRequest;
     }
-
     public String returnAddMessageRequest(String messageContent, String author){
         request = new RequestBlueprint();
-        xstream.aliasField("ns1:addMessage", Body.class, "method");
+        xstream.aliasField("ns1:addMessage", Body.class, "serviceMethod");
         this.request.getBody().getServiceMethod().setMessage(new Message(0,messageContent,author));
         String stringSoapRequest = xstream.toXML(request);
         return stringSoapRequest;
     }
     public String returnUpdateMessageRequest(int id, String messageContent, String author){
         request = new RequestBlueprint();
-        xstream.aliasField("ns1:updateMessage", Body.class, "method");
+        xstream.aliasField("ns1:updateMessage", Body.class, "serviceMethod");
         this.request.getBody().getServiceMethod().setMessage(new Message(id, messageContent, author));
         String stringSoapRequest = xstream.toXML(request);
         return stringSoapRequest;
     }
-
 }

@@ -17,7 +17,6 @@ public class ServiceMethod {
     public Message getMessage() {
         return message;
     }
-
     public void setId(int id) {
         this.message = null;
         this.id = id;
