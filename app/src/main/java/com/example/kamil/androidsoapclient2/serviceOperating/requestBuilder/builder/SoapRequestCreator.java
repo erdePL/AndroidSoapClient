@@ -1,9 +1,9 @@
-package com.example.kamil.androidsoapclient2.requestBuilding.builder;
+package com.example.kamil.androidsoapclient2.serviceOperating.requestBuilder.builder;
 
 import com.example.kamil.androidsoapclient2.model.Message;
-import com.example.kamil.androidsoapclient2.requestBuilding.markups.Body;
-import com.example.kamil.androidsoapclient2.requestBuilding.markups.ServiceMethod;
-import com.example.kamil.androidsoapclient2.requestBuilding.markups.RequestBlueprint;
+import com.example.kamil.androidsoapclient2.serviceOperating.requestBuilder.markups.Body;
+import com.example.kamil.androidsoapclient2.serviceOperating.requestBuilder.markups.ServiceMethod;
+import com.example.kamil.androidsoapclient2.serviceOperating.requestBuilder.markups.RequestBlueprint;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 

@@ -1,4 +1,4 @@
-package com.example.kamil.androidsoapclient2.requestBuilding.markups;
+package com.example.kamil.androidsoapclient2.serviceOperating.requestBuilder.markups;
 
 import com.example.kamil.androidsoapclient2.model.Message;
 

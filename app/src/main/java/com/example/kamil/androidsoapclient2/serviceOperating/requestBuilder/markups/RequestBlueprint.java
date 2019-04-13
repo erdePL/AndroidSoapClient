@@ -1,4 +1,4 @@
-package com.example.kamil.androidsoapclient2.requestBuilding.markups;
+package com.example.kamil.androidsoapclient2.serviceOperating.requestBuilder.markups;
 
 public class RequestBlueprint {
     private String xmlnsEnvelope;
