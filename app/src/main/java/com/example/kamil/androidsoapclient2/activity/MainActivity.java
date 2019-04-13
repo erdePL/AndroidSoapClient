@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 import com.example.kamil.androidsoapclient2.R;
+import com.example.kamil.androidsoapclient2.serviceOperating.operator.MessageServiceOperator;
 import com.example.kamil.androidsoapclient2.xmlFormatting.XmlPrettyFormatter;
 import com.example.kamil.androidsoapclient2.serviceOperating.requestBuilder.builder.SoapRequestCreator;
 import java.io.BufferedReader;
@@ -15,68 +16,71 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
-
     TextView textView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textView = (TextView) findViewById(R.id.textView);
-
         //hl execute doInBackground() of SoapCaller
         SoapCaller soapCaller = new SoapCaller();
         soapCaller.execute();
-
         //hl sets textview content
 //        textView.setText("some text");
     }
 
-    private class SoapCaller extends AsyncTask {
+    private class SoapCaller extends AsyncTask<Object, Object, String> {
+        private HttpURLConnection connection;
         String result;
-
         @Override
-        protected Object doInBackground(Object[] params) {
+        protected String doInBackground(Object[] params) {
+            initializeConnetion();
+            SoapRequestCreator soapRequestCreator = new SoapRequestCreator();
+            String soapEnvelope = soapRequestCreator.returnGetAllMessagesRequest();
+            sendRequest(soapEnvelope);
+            result = getResponse();
+            return result;
+
+        }
+        @Override
+        protected void onPostExecute(String o) {
+            super.onPostExecute(o);
+            textView.setText(XmlPrettyFormatter.prettyFormat(result, 2));
+        }
+        private void initializeConnetion(){
             try {
                 URL url = new URL("http://d9b9c5c4.ngrok.io/SoapMessageService-1.0-SNAPSHOT/MessageService?wsdl");
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("GET");
-
-                //hl working soap requests
-                SoapRequestCreator soapRequestCreator = new SoapRequestCreator();
-//                String soapEnvelope = soapRequestCreator.returnGetAllMessagesRequest();
-//                String soapEnvelope = soapRequestCreator.returnGetMessageRequest(12);
-                String soapEnvelope = soapRequestCreator.returnAddMessageRequest("Miau from android", "El Kocurro");
-//                String soapEnvelope = soapRequestCreator.returnUpdateMessageRequest(15,"Miau from android EDITED !", "El Kocurro");
-//                String soapEnvelope = soapRequestCreator.returnRemoveMessageRequest(12);
-//                String soapEnvelope = soapRequestCreator.returnRemoveAllMessagesRequest();
-
-                con.setDoOutput(true);
-                DataOutputStream out = new DataOutputStream(con.getOutputStream());
-                out.writeBytes(soapEnvelope);
+                this.connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.setDoOutput(true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        private void sendRequest(String request){
+            try {
+                DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+                out.writeBytes(request);
                 out.flush();
                 out.close();
-
-                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        private String getResponse(){
+            StringBuffer response = null;
+            try {
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String inputLine;
-                StringBuffer response = new StringBuffer();
+                response = new StringBuffer();
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
                 in.close();
-                result = response.toString();
-                return response;
             } catch (IOException e) {
                 e.printStackTrace();
-            } finally {
             }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            textView.setText(XmlPrettyFormatter.prettyFormat(result, 2));
+            return response.toString();
         }
     }
 }
