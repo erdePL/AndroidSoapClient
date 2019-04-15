@@ -1,4 +1,4 @@
-package com.example.kamil.androidsoapclient2.requestBuilder.markups;
+package com.example.kamil.androidsoapclient2.buildingRequest.markups;
 
 public class Body{
     private ServiceMethod serviceMethod;

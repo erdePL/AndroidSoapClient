@@ -1,13 +1,18 @@
 package com.example.kamil.androidsoapclient2.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 import com.example.kamil.androidsoapclient2.R;
 import com.example.kamil.androidsoapclient2.model.Message;
-import com.example.kamil.androidsoapclient2.responseParser.SoapResponseParser;
-import com.example.kamil.androidsoapclient2.requestBuilder.builder.SoapRequestCreator;
+import com.example.kamil.androidsoapclient2.parsingResponse.SoapResponseParser;
+import com.example.kamil.androidsoapclient2.buildingRequest.builder.SoapRequestCreator;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -23,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textView = (TextView) findViewById(R.id.textView);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("custom-event-name"));
+
         SoapCaller soapCaller = new SoapCaller();
         SoapRequestCreator soapRequestCreator = new SoapRequestCreator();
         String soapEnvelope = soapRequestCreator.returnGetAllMessagesRequest();
@@ -33,6 +42,15 @@ public class MainActivity extends AppCompatActivity {
 //        String soapEnvelope = soapRequestCreator.returnRemoveAllMessagesRequest();
         soapCaller.execute(soapEnvelope);
     }
+
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra("SoapResponse");
+            textView.setText(message);
+        }
+    };
 
     private class SoapCaller extends AsyncTask<String, Object, String> {
         private HttpURLConnection connection;
@@ -83,9 +101,10 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String o) {
             super.onPostExecute(o);
             SoapResponseParser responseParser = new SoapResponseParser();
-            Object parsedResponse = responseParser.parseResponse(result);
+            Object parsedResponse =  responseParser.parseResponse(result);
+            String stringResponse = "";
             if(parsedResponse instanceof String)
-                textView.setText((String)parsedResponse);
+                stringResponse = (String)parsedResponse;
             else if (parsedResponse instanceof List)
             {
                 StringBuilder sb = new StringBuilder();
@@ -93,8 +112,11 @@ public class MainActivity extends AppCompatActivity {
                 {
                     sb.append(messageToShow.getId() + ": " + messageToShow.getMessageContent() + ": " + messageToShow.getAuthor() + ": " + messageToShow.getCreationDate()+"\n");
                 }
-                textView.setText(sb.toString());
+                stringResponse = sb.toString();
             }
+            Intent intent = new Intent("custom-event-name");
+            intent.putExtra("SoapResponse", stringResponse );
+            LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(intent);
         }
     }
 }

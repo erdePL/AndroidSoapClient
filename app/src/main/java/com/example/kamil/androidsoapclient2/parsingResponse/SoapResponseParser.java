@@ -1,4 +1,4 @@
-package com.example.kamil.androidsoapclient2.responseParser;
+package com.example.kamil.androidsoapclient2.parsingResponse;
 
 import com.example.kamil.androidsoapclient2.model.Message;
 import com.thoughtworks.xstream.XStream;
