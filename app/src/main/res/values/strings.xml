@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AndroidSoapClient2</string>
+    <string name="send_soap_request">Send SOAP request</string>
+    <string name="response">--------RESPONSE--------</string>
 </resources>

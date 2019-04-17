@@ -51,17 +51,17 @@ public class SoapRequestCreator {
         String stringSoapRequest = xstream.toXML(request);
         return stringSoapRequest;
     }
-    public String returnAddMessageRequest(String messageContent, String author){
+    public String returnAddMessageRequest(Message message){
         request = new RequestBlueprint();
         xstream.aliasField("ns1:addMessage", Body.class, "serviceMethod");
-        this.request.getBody().getServiceMethod().setMessage(new Message(0,messageContent,author));
+        this.request.getBody().getServiceMethod().setMessage(new Message(0,message.getMessageContent(), message.getAuthor()));
         String stringSoapRequest = xstream.toXML(request);
         return stringSoapRequest;
     }
-    public String returnUpdateMessageRequest(int id, String messageContent, String author){
+    public String returnUpdateMessageRequest(Message message){
         request = new RequestBlueprint();
         xstream.aliasField("ns1:updateMessage", Body.class, "serviceMethod");
-        this.request.getBody().getServiceMethod().setMessage(new Message(id, messageContent, author));
+        this.request.getBody().getServiceMethod().setMessage(new Message(message.getId(), message.getMessageContent(), message.getAuthor()));
         String stringSoapRequest = xstream.toXML(request);
         return stringSoapRequest;
     }
