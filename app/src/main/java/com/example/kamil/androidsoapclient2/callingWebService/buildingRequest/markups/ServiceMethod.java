@@ -1,6 +1,6 @@
-package com.example.kamil.androidsoapclient2.buildingRequest.markups;
+package com.example.kamil.androidsoapclient2.callingWebService.buildingRequest.markups;
 
-import com.example.kamil.androidsoapclient2.model.Message;
+import com.example.kamil.androidsoapclient2.callingWebService.dataModel.Message;
 
 public class ServiceMethod {
     private Message message;

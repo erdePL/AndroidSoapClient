@@ -1,6 +1,6 @@
-package com.example.kamil.androidsoapclient2.parsingResponse;
+package com.example.kamil.androidsoapclient2.callingWebService.parsingResponse;
 
-import com.example.kamil.androidsoapclient2.model.Message;
+import com.example.kamil.androidsoapclient2.callingWebService.dataModel.Message;
 import com.thoughtworks.xstream.XStream;
 import java.util.ArrayList;
 import java.util.List;

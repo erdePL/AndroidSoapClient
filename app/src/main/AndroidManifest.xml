@@ -16,7 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".activity.SoapCallerIntentService"/>
+        <service android:name=".callingWebService.SoapCallerIntentService"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>

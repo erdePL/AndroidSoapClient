@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import com.example.kamil.androidsoapclient2.R;
+import com.example.kamil.androidsoapclient2.callingWebService.SoapCallerIntentService;
 
 public class MainActivity extends AppCompatActivity {
     private TextView textView;

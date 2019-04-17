@@ -1,12 +1,14 @@
-package com.example.kamil.androidsoapclient2.activity;
+package com.example.kamil.androidsoapclient2.callingWebService;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
-import com.example.kamil.androidsoapclient2.buildingRequest.builder.SoapRequestCreator;
-import com.example.kamil.androidsoapclient2.model.Message;
-import com.example.kamil.androidsoapclient2.parsingResponse.SoapResponseParser;
+
+import com.example.kamil.androidsoapclient2.activity.MainActivity;
+import com.example.kamil.androidsoapclient2.callingWebService.buildingRequest.builder.SoapRequestCreator;
+import com.example.kamil.androidsoapclient2.callingWebService.dataModel.Message;
+import com.example.kamil.androidsoapclient2.callingWebService.parsingResponse.SoapResponseParser;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.example.kamil.androidsoapclient2.xmlFormatting;
+package com.example.kamil.androidsoapclient2.possiblyDeprecated;
 
 import java.io.StringReader;
 import java.io.StringWriter;

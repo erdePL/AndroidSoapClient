@@ -1,4 +1,4 @@
-package com.example.kamil.androidsoapclient2.model;
+package com.example.kamil.androidsoapclient2.callingWebService.dataModel;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -43,5 +43,4 @@ public class Message {
     public void setAuthor(String author) {
         this.author = author;
     }
-
 }
